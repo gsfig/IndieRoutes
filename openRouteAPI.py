@@ -62,4 +62,9 @@ def distance_between_points_simple(lon, lat, poi_lon, poi_lat) -> float:
 
     :return: distance in meters
     """
-    return distance.distance((lat, lon), (poi_lat, poi_lon)).m
+    dist = distance.distance((lat, lon), (poi_lat, poi_lon)).m
+    # if dist < 10000:
+    #     print(dist)
+    #     print((lat, lon))
+    #     print((poi_lat, poi_lon))
+    return dist

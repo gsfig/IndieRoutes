@@ -40,22 +40,21 @@ def get_nearest_poi(longitude: float, latitude: float) -> dict:
 
     :return: json with nearest POI to given coordinates
     """
+    poi_db = get_poi_db()
     nearest_poi = {}
-    shortest_distance = 999
-    poi_list = get_poi_db()
-    print(poi_list)
+    shortest_distance = ''
 
-    for poi in poi_list['poi']:
-
-        print(poi)
+    for poi in poi_db['poi']:
         poi_lat = poi['latitude']
-        print('poi_lat: ' + str(poi_lat))
         poi_lon = poi['longitude']
-        distance = distance_between_points(poi_lat, poi_lon, latitude, longitude)
-
-        if distance < shortest_distance:
+        distance_poi = distance_between_points(longitude, latitude, poi_lon, poi_lat)
+        if not nearest_poi:  # empty
+            shortest_distance = distance_poi
             nearest_poi = poi
 
-    # return nearest_poi
-    return {'poi': [{'id': 1, 'name': 'poi_name_nearest'}]}
+        if distance_poi <= shortest_distance:
+            shortest_distance = distance_poi
+            nearest_poi = poi
+
+    return json.dumps({'nearest_poi' : nearest_poi})
 
