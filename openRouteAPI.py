@@ -7,7 +7,7 @@ def get_directions(lon_origin, lat_origin, lon_destination, lat_destination) -> 
     """
     Change to have openrouteservice API working
     """
-    return get_directions_simple(lon_origin, lat_origin, lon_destination, lat_destination)
+    return get_directions_simple()
     # return get_directions_withAPI(lon_origin, lat_origin, lon_destination, lat_destination)
 
 
@@ -39,9 +39,9 @@ def get_directions_withAPI(lon_origin, lat_origin, lon_destination, lat_destinat
     return j
 
 
-def get_directions_simple(lat_start, lon_start, lat_end, lon_end) -> dict:
+def get_directions_simple() -> dict:
     """
-    returns same response as API
+    returns same response as Openroute API
     for points: -9.14516, 38.72743; -9.39042, 38.78756
     """
     with open("jsonOpenrouteResponse", "r") as read_file_route:
@@ -63,8 +63,4 @@ def distance_between_points_simple(lon, lat, poi_lon, poi_lat) -> float:
     :return: distance in meters
     """
     dist = distance.distance((lat, lon), (poi_lat, poi_lon)).m
-    # if dist < 10000:
-    #     print(dist)
-    #     print((lat, lon))
-    #     print((poi_lat, poi_lon))
     return dist
