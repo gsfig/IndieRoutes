@@ -15,15 +15,16 @@ $(document).ready(function () {
         $.ajax({
             type: "GET",
             //enctype: 'multipart/form-data',
-            url: "sendQuery",
+            url: "get_highlights",
             data: query,
             processData: false,
             contentType: false,
             cache: false,
             timeout: 600000,
             success: function (data) {
-                console.log("SUCCESS : ", data);
+//                console.log("SUCCESS : ", data);
                 var obj = JSON.parse(data);
+//                var obj = data;
                 //console.log("obj: ", obj);
 
                 if(jQuery.isEmptyObject(obj)){
@@ -53,6 +54,8 @@ function showError() {
 
 function showData(obj){
     console.log("success", obj);
+//    $('#show-highlights').text(JSON.stringify(obj))
+    $('#show-highlights').append(obj)
 
     $("#btnSubmit").prop("disabled", false);
 

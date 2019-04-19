@@ -12,12 +12,13 @@ def hello_world():
     return render_template('home.html')
 
 
-@app.route('/sendQuery', methods=['GET'])
+@app.route('/get_highlights', methods=['GET'])
 def query():
-    query_text = request.args.to_dict()
-    print('QUERY: ' + str(query_text))
+    form = request.args.to_dict()
+    highlights = get_highlights(form['o_lon'], form['o_lat'], form['d_lon'], form['d_lat'])
+    print('highlightLIST: ' + str(highlights))
 
-    return json.dumps({'poi': [{'id': 1, 'name': 'sendquery'}]})
+    return json.dumps(highlights)
 
 
 create_db()
