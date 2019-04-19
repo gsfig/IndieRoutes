@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IndieRoutes</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.js" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename = 'myScript.js')}}" type="text/javascript"></script>
+</head>
+<body>
+
+
+<!--<form enctype="multipart/form-data" id="fileUploadForm" method="POST">-->
+<!--    <textarea class="box-css" name="QueryField" placeholder="Input query">aaa</textarea>-->
+<!--    &lt;!&ndash;rows="7" cols="70"&ndash;&gt;-->
+<!--    <br/>-->
+
+<!--    <input class="button-css" id="btnSubmit" type="submit" value="Find Similar"/>-->
+</form>
+
+
+<form action="" class="appnitro" enctype="multipart/form-data" id="fileUploadForm" method="GET">
+    <div class="form_description">
+        <p>fill with latitude and longitude</p>
+    </div>
+    <ul>
+
+        <li id="li_1">
+            <label class="description" for="o_lon">Origin Longitude </label>
+            <div>
+                <input class="element text medium" id="o_lon" maxlength="255" name="o_lon" type="text"
+                       value="-9.14516"/>
+            </div>
+            <p class="guidelines" id="guide_1">
+                <small>-9.14516</small>
+            </p>
+        </li>
+        <li id="li_2">
+            <label class="description" for="o_lat">Origin Latitude </label>
+            <div>
+                <input class="element text medium" id="o_lat" maxlength="255" name="o_lat" type="text"
+                       value="38.72743"/>
+            </div>
+            <p class="guidelines" id="guide_2">
+                <small>38.72743</small>
+            </p>
+        </li>
+        <li id="li_3">
+            <label class="description" for="d_lon">Destination Longitude </label>
+            <div>
+                <input class="element text medium" id="d_lon" maxlength="255" name="d_lon" type="text"
+                       value="-9.39042"/>
+            </div>
+            <p class="guidelines" id="guide_3">
+                <small>-9.39042</small>
+            </p>
+        </li>
+        <li id="li_4">
+            <label class="description" for="d_lat">Destination Latitude </label>
+            <div>
+                <input class="element text medium" id="d_lat" maxlength="255" name="d_lat" type="text"
+                       value="38.78756"/>
+            </div>
+            <p class="guidelines" id="guide_4">
+                <small>38.78756</small>
+            </p>
+        </li>
+
+        <li class="buttons">
+            <input name="form_id" type="hidden" value="60409"/>
+
+            <input class="button_text" id="btnSubmit" name="submit" type="submit" value="Submit"/>
+        </li>
+    </ul>
+</form>
+
+
+</body>
+</html>
