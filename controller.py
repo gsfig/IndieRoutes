@@ -1,26 +1,38 @@
 from model import get_poi_db
+from openRouteAPI import distance_between_points, get_directions
+import json
 
 
-def get_highlights(lon_start: float, lat_start: float, lon_end: float, lat_end: float) -> dict:
+def get_highlights(lon_origin, lat_origin, lon_destination, lat_destination) -> dict:
     """
 
-    :return: json with POI highlights closest to route
+    :return: POI highlights closest to route
     """
+    min_poi_rating = 7 # should be in config file, rating to be considered highlight
+    max_distance_to_route = 10000 # should be in config file, maximum distance (poi - route) in meters for poi to be considered
 
-    max_distance = 10
-    poi_list = {}
-    route = get_route_coordinates(lon_start, lat_start, lon_end, lat_end)
+    list_poi = []
 
-    for point_route in route:
+    directions = get_directions(lon_origin, lat_origin, lon_destination, lat_destination)
+    route_coords = directions['features'][0]['geometry']['coordinates']
 
-        poi_list = get_poi_db()
-        for poi in poi_list:
+    poi_db = get_poi_db()
 
-            distance_to_route = get_distance(poi['latitude'], poi['longitude'], point_route['latitude'], point_route['longitude'])
-            if distance_to_route < max_distance:
-                poi_list.update(poi)
+    # TODO: check if POI is inside route bounding box to decrease number of POI to check
+    # TODO: check if distance between points in route < some value to decrease number of points to check
 
-    return {'poi': [{'id': 1, 'name': 'poi_name_highlight'}]}
+    for poi in poi_db['poi']:
+        if int(poi['rating']) >= min_poi_rating:
+            to_add = {'id': poi['id'], 'description' : poi['description']}
+            for lon, lat in route_coords:
+                if to_add not in list_poi:
+                    poi_lat = poi['latitude']
+                    poi_lon = poi['longitude']
+                    distance_poi_route = distance_between_points(lon, lat, poi_lon, poi_lat)
+                    if distance_poi_route <= max_distance_to_route:
+                        list_poi.append({'id': poi['id'], 'description' : poi['description']})
+
+    return json.dumps({'poi_highlights' : list_poi})
 
 
 def get_nearest_poi(longitude: float, latitude: float) -> dict:
@@ -39,7 +51,7 @@ def get_nearest_poi(longitude: float, latitude: float) -> dict:
         poi_lat = poi['latitude']
         print('poi_lat: ' + str(poi_lat))
         poi_lon = poi['longitude']
-        distance = get_distance(poi_lat, poi_lon, latitude, longitude)
+        distance = distance_between_points(poi_lat, poi_lon, latitude, longitude)
 
         if distance < shortest_distance:
             nearest_poi = poi
@@ -47,10 +59,3 @@ def get_nearest_poi(longitude: float, latitude: float) -> dict:
     # return nearest_poi
     return {'poi': [{'id': 1, 'name': 'poi_name_nearest'}]}
 
-
-def get_distance(poi_lat, poi_lon, latitude, longitude):
-    return 1
-
-
-def get_route_coordinates(lon_start, lat_start, lon_end, lat_end):
-    return {}
